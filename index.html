@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Almu &amp; Didi | Regnum Christi Missionary Year</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* ── HOME PAGE EXTRAS ── */
+
+    /* NAV */
+    .site-nav {
+      background: #0d2d6b; position: sticky; top: 0; z-index: 100;
+      border-bottom: 2px solid rgba(240,208,120,0.25);
+    }
+    .nav-inner {
+      max-width: 900px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px;
+    }
+    .nav-brand {
+      font-family: Arial, sans-serif; font-size: 0.82rem; font-weight: 800;
+      letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold2);
+      padding: 14px 0; text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 0; }
+    .nav-links a {
+      font-family: Arial, sans-serif; font-size: 0.82rem; font-weight: 700;
+      color: rgba(255,255,255,0.75); text-decoration: none; padding: 16px 18px;
+      border-bottom: 3px solid transparent; transition: all 0.2s;
+      letter-spacing: 0.5px;
+    }
+    .nav-links a:hover { color: var(--gold2); }
+    .nav-links a.active { color: #fff; border-bottom-color: var(--gold2); }
+    .nav-links a.nav-donate {
+      background: var(--gold); color: #0d2d6b; border-radius: 6px;
+      margin: 10px 0 10px 10px; padding: 8px 18px; border-bottom: none;
+    }
+    .nav-links a.nav-donate:hover { background: var(--gold2); }
+
+    /* WHY SECTION */
+    .why-section {
+      max-width: 900px; margin: 0 auto; padding: 72px 24px 56px;
+    }
+    .section-label {
+      font-family: Arial, sans-serif; font-size: 0.72rem; font-weight: 800;
+      letter-spacing: 3px; text-transform: uppercase; color: var(--rc-blue);
+      margin-bottom: 10px;
+    }
+    .why-section h2 {
+      font-size: clamp(1.7rem, 3.5vw, 2.6rem); color: var(--dark);
+      line-height: 1.22; margin-bottom: 14px;
+    }
+    .why-section h2 em { color: var(--rc-blue); font-style: normal; }
+    .why-intro {
+      font-family: Arial, sans-serif; font-size: 1rem; color: var(--gray);
+      max-width: 620px; line-height: 1.7; margin-bottom: 52px;
+    }
+
+    /* WHY CARDS */
+    .why-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    @media (max-width: 620px) { .why-cards { grid-template-columns: 1fr; } }
+
+    .why-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 20px; padding: 36px 32px; box-shadow: var(--shadow-sm);
+      position: relative; overflow: hidden;
+    }
+    .why-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px;
+      background: linear-gradient(90deg, var(--rc-blue), var(--rc-blue3));
+    }
+    .why-card-avatar {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: var(--rc-blue); border: 3px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.9rem; color: #fff; margin-bottom: 20px;
+    }
+    .why-card h3 { font-size: 1.4rem; color: var(--rc-blue); margin-bottom: 4px; }
+    .why-card-role {
+      font-family: Arial, sans-serif; font-size: 0.72rem; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 18px;
+    }
+    .why-card-quote {
+      font-size: 1.05rem; color: var(--dark); line-height: 1.75;
+      border-left: 3px solid var(--rc-light); padding-left: 18px;
+      font-style: italic;
+    }
+    .why-card-quote::before { content: '\201C'; color: var(--gold); font-size: 2.5rem; line-height: 0.6; vertical-align: -0.5rem; margin-right: 4px; font-style: normal; }
+
+    /* DIVIDER */
+    .divider-cross {
+      text-align: center; padding: 10px 0 0;
+      font-size: 1.4rem; color: var(--gold); letter-spacing: 18px; opacity: 0.6;
+    }
+
+    /* PAGE CARDS */
+    .pages-section {
+      background: var(--rc-pale); border-top: 2px solid var(--border);
+      border-bottom: 2px solid var(--border); padding: 64px 24px;
+    }
+    .pages-inner { max-width: 900px; margin: 0 auto; }
+    .pages-section .section-label { text-align: center; }
+    .pages-section h2 {
+      font-size: clamp(1.5rem, 3vw, 2.2rem); text-align: center;
+      color: var(--dark); margin-bottom: 10px;
+    }
+    .pages-section h2 em { color: var(--rc-blue); font-style: normal; }
+    .pages-section .pages-sub {
+      font-family: Arial, sans-serif; font-size: 0.95rem; color: var(--gray);
+      text-align: center; max-width: 480px; margin: 0 auto 48px; line-height: 1.65;
+    }
+    .page-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
+    @media (max-width: 680px) { .page-cards { grid-template-columns: 1fr; } }
+
+    .page-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 18px; padding: 36px 28px; text-align: center;
+      box-shadow: var(--shadow-sm); text-decoration: none; color: inherit;
+      transition: transform 0.2s, box-shadow 0.2s; display: flex;
+      flex-direction: column; align-items: center;
+    }
+    .page-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+    .page-card-icon {
+      width: 64px; height: 64px; border-radius: 16px;
+      background: var(--rc-light); display: flex; align-items: center;
+      justify-content: center; font-size: 2rem; margin-bottom: 20px;
+    }
+    .page-card h3 { font-size: 1.2rem; color: var(--rc-blue); margin-bottom: 8px; }
+    .page-card p {
+      font-family: Arial, sans-serif; font-size: 0.85rem; color: var(--gray);
+      line-height: 1.6; flex: 1; margin-bottom: 22px;
+    }
+    .page-card .card-btn {
+      display: inline-block; font-family: Arial, sans-serif; font-size: 0.82rem;
+      font-weight: 800; padding: 10px 24px; border-radius: 50px;
+      text-decoration: none; letter-spacing: 0.5px; transition: all 0.2s;
+    }
+    .page-card.card-primary .card-btn {
+      background: var(--rc-blue); color: #fff;
+    }
+    .page-card.card-primary .card-btn:hover { background: var(--rc-blue2); }
+    .page-card .card-btn.card-btn-gold {
+      background: var(--gold); color: #0d2d6b;
+    }
+    .page-card .card-btn.card-btn-gold:hover { background: var(--gold2); }
+    .page-card .card-btn.card-btn-outline {
+      border: 2px solid var(--rc-blue); color: var(--rc-blue); background: transparent;
+    }
+    .page-card .card-btn.card-btn-outline:hover { background: var(--rc-light); }
+
+    /* MISSION VERSE */
+    .verse-band {
+      background: linear-gradient(135deg, #0d2d6b, var(--rc-blue));
+      padding: 56px 24px; text-align: center; color: #fff;
+    }
+    .verse-band blockquote {
+      font-size: clamp(1.15rem, 2.5vw, 1.6rem); max-width: 680px; margin: 0 auto;
+      line-height: 1.7; font-style: italic; opacity: 0.95;
+    }
+    .verse-band blockquote::before { content: '\201C'; color: var(--gold2); font-size: 3rem; line-height: 0.5; vertical-align: -0.6rem; }
+    .verse-band cite {
+      display: block; margin-top: 18px; font-family: Arial, sans-serif;
+      font-size: 0.82rem; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--gold2); font-style: normal; opacity: 0.8;
+    }
+
+    /* FOOTER */
+    .site-footer {
+      background: #0a1f4e; color: rgba(255,255,255,0.5);
+      text-align: center; padding: 32px 24px;
+      font-family: Arial, sans-serif; font-size: 0.8rem; line-height: 1.9;
+    }
+    .site-footer a { color: var(--gold2); text-decoration: none; }
+    .site-footer strong { color: rgba(255,255,255,0.8); }
+
+    @media (max-width: 640px) {
+      .miss-inner { grid-template-columns: 1fr; }
+      .nav-links a { padding: 14px 10px; font-size: 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- STICKY NAV -->
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a class="nav-brand" href="index.html">✝ Almu &amp; Didi</a>
+    <div class="nav-links">
+      <a href="index.html" class="active">Home</a>
+      <a href="guide.html">Ways to Help</a>
+      <a href="donate.html" class="nav-donate">Donate</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-bg-cross">✝</div>
+
+  <div class="rc-logo-wrap">
+    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M32 6 Q28 16 30 22 Q26 16 28 10 Q22 18 24 26 Q20 20 22 28 Q20 34 26 38 Q22 42 28 46 Q30 50 32 52 Q34 50 36 46 Q42 42 38 38 Q44 34 42 28 Q44 20 38 26 Q40 18 34 10 Q36 16 32 22 Q34 16 32 6Z" fill="#f0d078" opacity="0.9"/>
+      <line x1="32" y1="28" x2="32" y2="62" stroke="white" stroke-width="3" stroke-linecap="round"/>
+      <line x1="20" y1="40" x2="44" y2="40" stroke="white" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="32" cy="44" r="18" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+    </svg>
+    <div class="rc-brand">
+      <div class="rc-brand-name">Catholic Apostolic Movement</div>
+      <div class="rc-brand-full">Regnum Christi</div>
+    </div>
+  </div>
+
+  <div class="hero-names">
+    <span>✝</span>
+    Almu &amp; Didi's Missionary Year
+    <span>✝</span>
+  </div>
+
+  <h1>Help Us Build<br>the <em>Kingdom of Christ</em></h1>
+  <p class="hero-sub" id="cfgHeroSub">We are Almu and Didi — two missionaries with Regnum Christi. We need to raise $10,000 to fund our year of apostolic service. Every strategy, step, and idea is here. Join our mission.</p>
+
+  <a href="donate.html" style="display:inline-block;background:var(--gold);color:#0d2d6b;font-family:Arial,sans-serif;font-size:1rem;font-weight:800;padding:16px 44px;border-radius:50px;text-decoration:none;margin-bottom:44px;box-shadow:0 4px 18px rgba(0,0,0,0.25);letter-spacing:0.5px;transition:all 0.2s;">✝ &nbsp;Donate to Almu &amp; Didi</a>
+
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-n" id="cfgGoal">$10K</span><span class="stat-l">Our Goal</span></div>
+    <div class="stat"><span class="stat-n" id="cfgRaisedStat">$0</span><span class="stat-l">Raised So Far</span></div>
+    <div class="stat"><span class="stat-n" id="cfgDays">33</span><span class="stat-l">Days to Launch</span></div>
+    <div class="stat"><span class="stat-n" id="cfgDonorsStat">0</span><span class="stat-l">Co-Missionaries</span></div>
+  </div>
+</header>
+
+<!-- PROGRESS BAR -->
+<div class="tracker">
+  <div class="tracker-inner">
+    <div class="tracker-top">
+      <div>
+        <h3>Our Fundraising Goal</h3>
+        <div class="tracker-amount" id="cfgTrackerAmount">$10,000 — Full Missionary Year</div>
+      </div>
+      <div class="tracker-pct" id="cfgPct">0% funded</div>
+    </div>
+    <div class="bar-wrap"><div class="bar-fill" id="goalBar" style="width:0%"></div></div>
+    <div class="bar-labels"><span>$0</span><span>$2,500</span><span>$5,000</span><span>$7,500</span><span id="cfgBarMax">$10,000</span></div>
+  </div>
+</div>
+
+<!-- WHY WE'RE GOING -->
+<section class="why-section">
+  <div class="section-label">Our Hearts</div>
+  <h2>Why We're Going on a <em>Mission Year</em></h2>
+  <p class="why-intro">This isn't a gap year. It isn't a vacation. It's a total gift of ourselves to God and to the people He places in our path. Here, in their own words, is why Almu and Didi are going.</p>
+
+  <div class="why-cards">
+    <div class="why-card">
+      <div id="almuPhotoWrap" class="why-card-avatar" style="width:88px;height:88px;overflow:hidden;border-radius:50%;border:3px solid var(--gold);margin-bottom:20px;background:var(--rc-blue);display:flex;align-items:center;justify-content:center;">
+        <img id="almuPhoto" src="" alt="Almu" style="width:100%;height:100%;object-fit:cover;display:none;border-radius:50%;"/>
+        <span id="almuInitial" style="font-size:1.9rem;color:#fff;">A</span>
+      </div>
+      <h3>Almu</h3>
+      <div class="why-card-role" id="cfgAlmuRole">Regnum Christi Missionary</div>
+      <p class="why-card-quote" id="cfgAlmuWhy">I want to give everything I have for one year — not for myself, but for Christ and for the souls He loves. I've seen how a single encounter with God can change a life forever. I want to be the person who makes that encounter possible for someone else. This year isn't about what I'll achieve; it's about who I'll become in His hands.</p>
+    </div>
+    <div class="why-card">
+      <div id="didiPhotoWrap" class="why-card-avatar" style="width:88px;height:88px;overflow:hidden;border-radius:50%;border:3px solid var(--gold);margin-bottom:20px;background:var(--rc-blue);display:flex;align-items:center;justify-content:center;">
+        <img id="didiPhoto" src="" alt="Didi" style="width:100%;height:100%;object-fit:cover;display:none;border-radius:50%;"/>
+        <span id="didiInitial" style="font-size:1.9rem;color:#fff;">D</span>
+      </div>
+      <h3>Didi</h3>
+      <div class="why-card-role" id="cfgDidiRole">Regnum Christi Missionary</div>
+      <p class="why-card-quote" id="cfgDidiWhy">There's a restlessness in my heart that only mission can satisfy. I've been given so much — faith, community, formation — and I believe God is asking me to pour all of it out in service. I want to go where the need is greatest, love without reserve, and trust that He will provide everything else. That's why I'm going.</p>
+    </div>
+  </div>
+
+  <div class="divider-cross" style="margin-top:52px;">✝ &nbsp; ✝ &nbsp; ✝</div>
+</section>
+
+<!-- MISSIONARY PROFILES -->
+<div class="missionaries">
+  <div class="miss-inner">
+    <div class="miss-card">
+      <div class="miss-avatar">A</div>
+      <h3>Almu</h3>
+      <div class="miss-role" id="cfgAlmuRoleB">Regnum Christi Missionary</div>
+      <p id="cfgAlmuDesc">For over a year, I've been praying and preparing for the opportunity to serve as a missionary for a year. After spending a summer doing mission work, I felt God placing a strong desire on my heart to dedicate a full year to serving others and sharing my faith. I'm excited for the ways this experience will help me grow spiritually, build meaningful relationships, and make a difference in the lives of the people I meet. This calling has been on my heart for a long time, and any support toward this journey would truly mean a lot to me and help make this mission possible.</p>
+    </div>
+    <div class="miss-card">
+      <div class="miss-avatar">D</div>
+      <h3>Didi</h3>
+      <div class="miss-role" id="cfgDidiRoleB">Regnum Christi Missionary</div>
+      <p id="cfgDidiDesc">Didi answered Christ's call to go out to the whole world and serve. Through this missionary year, he will share the faith, form young hearts, and build the Kingdom of God.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE NAVIGATION CARDS -->
+<div class="pages-section">
+  <div class="pages-inner">
+    <div class="section-label">Explore the Site</div>
+    <h2>Everything You Need to <em>Join the Mission</em></h2>
+    <p class="pages-sub">Learn how to help, discover our fundraising strategy, or give directly — it's all one click away.</p>
+
+    <div class="page-cards">
+
+      <a href="index.html" class="page-card">
+        <div class="page-card-icon">🏠</div>
+        <h3>Home</h3>
+        <p>Meet Almu and Didi and learn why they're answering Christ's call to a full year of apostolic service.</p>
+        <span class="card-btn card-btn-outline">You Are Here</span>
+      </a>
+
+      <a href="guide.html" class="page-card">
+        <div class="page-card-icon">🤝</div>
+        <h3>Ways to Help</h3>
+        <p>See the different ways you can partner with Almu and Didi — from monthly giving to spreading the word.</p>
+        <span class="card-btn card-btn-outline">See How to Help →</span>
+      </a>
+
+      <a href="donate.html" class="page-card card-primary">
+        <div class="page-card-icon" style="background:var(--gold);font-size:2rem;">✝</div>
+        <h3>Donate Now</h3>
+        <p>Give directly to Almu and Didi's missionary year and become a co-missionary in the Kingdom of Christ.</p>
+        <span class="card-btn card-btn-gold">Give Today →</span>
+      </a>
+
+    </div>
+  </div>
+</div>
+
+<!-- SCRIPTURE VERSE -->
+<div class="verse-band">
+  <blockquote>
+    Go into the whole world and proclaim the gospel to every creature.
+  </blockquote>
+  <cite>Mark 16:15 — The Great Commission</cite>
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <strong>Almu &amp; Didi — Regnum Christi Missionary Year</strong><br>
+  <a href="guide.html">Fundraising Guide</a> &nbsp;·&nbsp;
+  <a href="donate.html">Donate</a> &nbsp;·&nbsp;
+  <a href="index.html">Home</a><br>
+  Donations are logged manually using the tracker on the <a href="donate.html" style="color:var(--gold2);">Donate page</a>.
+</footer>
+
+<script src="config.js"></script>
+<script>
+  const LS_KEY = 'rc_donations_almu_didi';
+
+  function getLiveTotal() {
+    try {
+      const arr = JSON.parse(localStorage.getItem(LS_KEY)) || [];
+      return { total: arr.reduce((s, d) => s + d.amount, 0), count: arr.length };
+    } catch(e) { return { total: 0, count: 0 }; }
+  }
+
+  window.addEventListener('load', () => {
+    const c = SITE_CONFIG;
+    const live = getLiveTotal();
+    const raised = live.total + c.raised;
+    const count  = live.count + c.coMissionaries;
+    const pct    = Math.min(100, Math.round((raised / c.goal) * 100));
+
+    // Hero stats
+    document.getElementById('cfgGoal').textContent    = c.goalFmt;
+    document.getElementById('cfgRaisedStat').textContent = '$' + raised.toLocaleString();
+    document.getElementById('cfgDays').textContent    = c.daysToLaunch;
+    document.getElementById('cfgDonorsStat').textContent = count;
+
+    // Tracker bar
+    document.getElementById('cfgTrackerAmount').textContent = c.goalFmt + ' — Full Missionary Year';
+    document.getElementById('cfgPct').textContent = pct + '% funded';
+    document.getElementById('cfgBarMax').textContent = c.goalFmt;
+    setTimeout(() => { document.getElementById('goalBar').style.width = pct + '%'; }, 500);
+
+    // Hero subtitle
+    if (document.getElementById('cfgHeroSub')) {
+      document.getElementById('cfgHeroSub').textContent = c.heroSubtitle;
+    }
+
+    // Missionary roles & descriptions
+    document.getElementById('cfgAlmuRole').textContent  = c.almu.role;
+    document.getElementById('cfgAlmuWhy').textContent   = c.almu.why;
+    document.getElementById('cfgDidiRole').textContent  = c.didi.role;
+    document.getElementById('cfgDidiWhy').textContent   = c.didi.why;
+    document.getElementById('cfgAlmuRoleB').textContent = c.almu.role;
+    document.getElementById('cfgAlmuDesc').textContent  = c.almu.description;
+    document.getElementById('cfgDidiRoleB').textContent = c.didi.role;
+    document.getElementById('cfgDidiDesc').textContent  = c.didi.description;
+
+    // Photos — show if a path is set in config.js
+    function loadPhoto(photoPath, imgId, initialId) {
+      if (!photoPath) return;
+      const img = document.getElementById(imgId);
+      const init = document.getElementById(initialId);
+      if (img) { img.src = photoPath; img.style.display = 'block'; }
+      if (init) init.style.display = 'none';
+    }
+    loadPhoto(c.almu.photo, 'almuPhoto', 'almuInitial');
+    loadPhoto(c.didi.photo, 'didiPhoto', 'didiInitial');
+  });
+</script>
+
+</body>
+</html>

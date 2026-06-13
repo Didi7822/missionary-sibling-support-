@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ways to Help | Almu &amp; Didi — Regnum Christi Missionary Year</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .site-nav { background:#0d2d6b; position:sticky; top:0; z-index:100; border-bottom:2px solid rgba(240,208,120,0.25); }
+    .nav-inner { max-width:900px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:0 24px; }
+    .nav-brand { font-family:Arial,sans-serif; font-size:0.82rem; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold2); padding:14px 0; text-decoration:none; }
+    .nav-links { display:flex; gap:0; }
+    .nav-links a { font-family:Arial,sans-serif; font-size:0.82rem; font-weight:700; color:rgba(255,255,255,0.75); text-decoration:none; padding:16px 18px; border-bottom:3px solid transparent; transition:all 0.2s; letter-spacing:0.5px; }
+    .nav-links a:hover { color:var(--gold2); }
+    .nav-links a.active { color:#fff; border-bottom-color:var(--gold2); }
+    .nav-links a.nav-donate { background:var(--gold); color:#0d2d6b; border-radius:6px; margin:10px 0 10px 10px; padding:8px 18px; border-bottom:none; }
+    .nav-links a.nav-donate:hover { background:var(--gold2); }
+
+    .page-header { background:var(--white); border-bottom:2px solid var(--border); padding:52px 24px 44px; text-align:center; }
+    .page-header .section-label { font-family:Arial,sans-serif; font-size:0.72rem; font-weight:800; letter-spacing:3px; text-transform:uppercase; color:var(--rc-blue); margin-bottom:12px; }
+    .page-header h1 { font-size:clamp(1.8rem,4vw,2.8rem); color:var(--dark); line-height:1.2; margin-bottom:14px; }
+    .page-header h1 em { color:var(--rc-blue); font-style:normal; }
+    .page-header p { font-family:Arial,sans-serif; font-size:1rem; color:var(--gray); max-width:520px; margin:0 auto; line-height:1.7; }
+
+    .help-section { max-width:840px; margin:0 auto; padding:60px 24px; }
+    .help-cards { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    @media (max-width:600px) { .help-cards { grid-template-columns:1fr; } }
+
+    .help-card { background:var(--white); border:1px solid var(--border); border-radius:16px; padding:28px 26px; box-shadow:var(--shadow-sm); display:flex; flex-direction:column; gap:10px; position:relative; overflow:hidden; }
+    .help-card::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background:linear-gradient(90deg,var(--rc-blue),var(--rc-blue3)); }
+    .help-card.card-gold::before { background:linear-gradient(90deg,var(--gold),var(--gold2)); }
+    .help-card-icon { font-size:2rem; line-height:1; margin-bottom:2px; }
+    .help-card h3 { font-size:1.15rem; color:var(--rc-blue); margin:0; }
+    .help-card.card-gold h3 { color:#7a5600; }
+    .help-card p { font-family:Arial,sans-serif; font-size:0.88rem; color:var(--gray); line-height:1.65; margin:0; flex:1; }
+    .help-card a.help-btn, .help-card button.help-btn { display:inline-block; font-family:Arial,sans-serif; font-size:0.82rem; font-weight:800; padding:10px 22px; border-radius:50px; text-decoration:none; letter-spacing:0.4px; transition:all 0.2s; align-self:flex-start; margin-top:4px; cursor:pointer; border:none; }
+    .help-btn-blue { background:var(--rc-light); color:var(--rc-blue); border:2px solid var(--border)!important; }
+    .help-btn-blue:hover { background:var(--rc-blue)!important; color:#fff!important; border-color:var(--rc-blue)!important; }
+    .help-btn-gold { background:var(--gold); color:#0d2d6b; }
+    .help-btn-gold:hover { background:var(--gold2); }
+
+    /* SHARE WIDGET */
+    .share-widget { background:var(--rc-pale); border:1px solid var(--border); border-radius:12px; padding:16px; margin-top:4px; }
+    .share-url { display:flex; gap:8px; margin-bottom:12px; }
+    .share-url input { flex:1; border:2px solid var(--border); border-radius:8px; padding:8px 12px; font-family:Arial,sans-serif; font-size:0.8rem; color:var(--gray); background:var(--white); outline:none; min-width:0; }
+    .share-url button { background:var(--rc-blue); color:#fff; border:none; border-radius:8px; padding:8px 14px; font-family:Arial,sans-serif; font-size:0.78rem; font-weight:800; cursor:pointer; white-space:nowrap; transition:opacity 0.2s; }
+    .share-url button:hover { opacity:0.85; }
+    .share-platforms { display:flex; gap:8px; flex-wrap:wrap; }
+    .share-platforms a { display:inline-flex; align-items:center; gap:6px; font-family:Arial,sans-serif; font-size:0.78rem; font-weight:700; padding:7px 14px; border-radius:8px; text-decoration:none; transition:opacity 0.2s; }
+    .share-platforms a:hover { opacity:0.85; }
+    .shr-fb { background:#1877f2; color:#fff; }
+    .shr-x  { background:#000; color:#fff; }
+    .shr-wa { background:#25d366; color:#fff; }
+    .shr-em { background:var(--rc-light); color:var(--rc-blue); border:1px solid var(--border); }
+    .copy-msg { font-family:Arial,sans-serif; font-size:0.78rem; color:var(--green); margin-top:6px; min-height:18px; }
+
+    /* WALK DISTANCES */
+    .walk-distances { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:4px; }
+    .walk-dist { background:var(--rc-pale); border:1px solid var(--border); border-radius:10px; padding:10px 14px; text-align:center; }
+    .walk-dist strong { display:block; font-size:1.1rem; color:var(--rc-blue); }
+    .walk-dist span { font-family:Arial,sans-serif; font-size:0.75rem; color:var(--gray); }
+
+    /* CONTACT BAND */
+    .contact-band { background:var(--rc-blue); color:#fff; border-radius:16px; padding:28px 26px; margin-top:8px; display:flex; flex-wrap:wrap; gap:24px; align-items:center; justify-content:space-between; }
+    .contact-band h3 { font-size:1.1rem; margin:0 0 4px; }
+    .contact-band p { font-family:Arial,sans-serif; font-size:0.85rem; opacity:0.85; margin:0; }
+    .contact-methods { display:flex; gap:10px; flex-wrap:wrap; }
+    .contact-pill { display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.25); border-radius:50px; padding:8px 16px; font-family:Arial,sans-serif; font-size:0.82rem; color:#fff; text-decoration:none; transition:background 0.2s; }
+    .contact-pill:hover { background:rgba(255,255,255,0.22); }
+
+    .donate-callout { background:linear-gradient(135deg,#0d2d6b,var(--rc-blue)); border-radius:20px; padding:40px 36px; text-align:center; margin-bottom:20px; color:#fff; }
+    .donate-callout h3 { font-size:1.5rem; margin-bottom:10px; }
+    .donate-callout h3 em { color:var(--gold2); font-style:normal; }
+    .donate-callout p { font-family:Arial,sans-serif; font-size:0.95rem; opacity:0.85; max-width:440px; margin:0 auto 24px; line-height:1.65; }
+
+    .prayer-card { background:var(--rc-pale); border:1px solid var(--border); border-radius:16px; padding:28px 26px; text-align:center; margin-top:8px; }
+    .prayer-card h3 { font-size:1.1rem; color:var(--rc-blue); margin-bottom:8px; }
+    .prayer-card p { font-family:Arial,sans-serif; font-size:0.88rem; color:var(--gray); line-height:1.65; margin:0; }
+
+    .site-footer { background:#0a1f4e; color:rgba(255,255,255,0.5); text-align:center; padding:32px 24px; font-family:Arial,sans-serif; font-size:0.8rem; line-height:1.9; }
+    .site-footer a { color:var(--gold2); text-decoration:none; }
+    .site-footer strong { color:rgba(255,255,255,0.8); }
+  </style>
+</head>
+<body>
+
+<!-- STICKY NAV -->
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a class="nav-brand" href="index.html">✝ Almu &amp; Didi</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="guide.html" class="active">Ways to Help</a>
+      <a href="donate.html" class="nav-donate">Donate</a>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="section-label">Join the Mission</div>
+  <h1>Ways You Can <em>Help</em></h1>
+  <p>Every act of generosity — big or small — makes Almu and Didi's missionary year possible. Here are the most meaningful ways you can partner with them.</p>
+</div>
+
+<!-- HELP CARDS -->
+<div class="help-section">
+
+  <!-- DONATE CALLOUT -->
+  <div class="donate-callout">
+    <h3>Give a <em>One-Time Gift</em></h3>
+    <p>The most direct way to help. Every dollar goes straight to funding Almu and Didi's year of apostolic service with Regnum Christi.</p>
+    <a href="donate.html" style="display:inline-block;background:var(--gold);color:#0d2d6b;font-family:Arial,sans-serif;font-size:1rem;font-weight:800;padding:14px 40px;border-radius:50px;text-decoration:none;letter-spacing:0.5px;">✝ &nbsp;Donate Now</a>
+  </div>
+
+  <div class="help-cards">
+
+    <div class="help-card card-gold">
+      <div class="help-card-icon">📅</div>
+      <h3>Become a Monthly Co-Missionary</h3>
+      <p>A small monthly gift makes the biggest difference over a full year. Even $25/month adds up to $300 — enough to cover a full week of their mission. Regnum Christi calls these donors "co-missionaries."</p>
+      <a href="donate.html" class="help-btn help-btn-gold">Set Up Monthly Giving →</a>
+    </div>
+
+    <!-- SHARE CARD -->
+    <div class="help-card">
+      <div class="help-card-icon">📣</div>
+      <h3>Spread the Word</h3>
+      <p>A simple share from you reaches people Almu and Didi have never met. Copy the link below or share directly to social media.</p>
+      <div class="share-widget">
+        <div class="share-url">
+          <input id="shareUrl" type="text" readonly value=""/>
+          <button onclick="copyShareLink()">Copy Link</button>
+        </div>
+        <div class="share-platforms">
+          <a id="shareFb" class="shr-fb" href="#" target="_blank" rel="noopener">f &nbsp;Facebook</a>
+          <a id="shareX"  class="shr-x"  href="#" target="_blank" rel="noopener">𝕏 &nbsp;X / Twitter</a>
+          <a id="shareWa" class="shr-wa" href="#" target="_blank" rel="noopener">💬 &nbsp;WhatsApp</a>
+          <a id="shareEm" class="shr-em" href="#">✉️ &nbsp;Email</a>
+        </div>
+        <div class="copy-msg" id="copyMsg"></div>
+      </div>
+    </div>
+
+    <!-- PARISH CARD -->
+    <div class="help-card">
+      <div class="help-card-icon">⛪</div>
+      <h3>Connect Them to Your Parish</h3>
+      <p>A personal testimony at Mass is one of the most powerful fundraising tools Almu and Didi have. If you have a connection to a pastor or parish coordinator, an introduction from you could open the door for a talk that raises thousands.</p>
+      <p style="margin-top:4px;"><strong style="color:var(--rc-blue);">What to say:</strong> "I know two young missionaries raising money for a Regnum Christi missionary year — could they speak at Mass one weekend?"</p>
+      <a id="parishEmailBtn" href="mailto:forreygabe07@gmail.com?subject=Parish%20Connection%20for%20Almu%20%26%20Didi&body=Hi%20Almu%20and%20Didi%2C%0A%0AI%20know%20a%20parish%20that%20might%20be%20open%20to%20having%20you%20speak..." class="help-btn help-btn-blue">Make an Introduction →</a>
+    </div>
+
+    <!-- ITEMS CARD -->
+    <div class="help-card">
+      <div class="help-card-icon">🎁</div>
+      <h3>Donate Items for a Fundraiser</h3>
+      <p>Almu and Didi may host a silent auction, raffle, or yard sale. If you have gently used goods, gift cards, experiences, or services to donate, every item is money they don't have to raise another way.</p>
+      <p style="margin-top:4px;font-weight:700;color:var(--rc-blue);">Contact Almu &amp; Didi directly:</p>
+      <div style="display:flex;flex-direction:column;gap:6px;margin-top:2px;">
+        <a id="itemEmailLink" href="mailto:forreygabe07@gmail.com?subject=Item%20Donation%20for%20Almu%20%26%20Didi" class="help-btn help-btn-blue" style="align-self:flex-start;">✉️ &nbsp;Email Us →</a>
+        <span id="itemPhoneLine" style="font-family:Arial,sans-serif;font-size:0.82rem;color:var(--gray);display:none;">📞 &nbsp;<span id="itemPhone"></span></span>
+      </div>
+    </div>
+
+    <!-- EMPLOYER MATCH -->
+    <div class="help-card">
+      <div class="help-card-icon">🏢</div>
+      <h3>Check Employer Matching</h3>
+      <p>Many companies match charitable donations dollar-for-dollar — your gift could automatically double at no extra cost to you. Ask your HR department if your employer has a matching gift program.</p>
+      <a href="donate.html" class="help-btn help-btn-blue">Donate &amp; Then Match →</a>
+    </div>
+
+    <!-- CHARITY WALK CARD -->
+    <div class="help-card" id="walkCard">
+      <div class="help-card-icon">🚶</div>
+      <h3>Join a Charity Walk</h3>
+      <p>Walk alongside Almu and Didi's mission — literally. Distances available for everyone, from a gentle stroll to a full 5K. Collect pledges from your own network and multiply the impact.</p>
+      <div class="walk-distances">
+        <div class="walk-dist"><strong>1 Mile</strong><span>For everyone — families welcome</span></div>
+        <div class="walk-dist"><strong>3 Miles</strong><span>A brisk community walk</span></div>
+        <div class="walk-dist"><strong>5K (3.1 mi)</strong><span>For runners and walkers</span></div>
+        <div class="walk-dist"><strong>Any Distance</strong><span>Pledge per mile or flat amount</span></div>
+      </div>
+      <a id="walkSignupBtn" href="donate.html" class="help-btn help-btn-blue" style="margin-top:8px;">Sign Up / Give →</a>
+    </div>
+
+  </div>
+
+  <!-- CONTACT BAND -->
+  <div class="contact-band">
+    <div>
+      <h3>Questions? Get in Touch.</h3>
+      <p>Almu and Didi are happy to answer any questions about their mission or the fundraiser.</p>
+    </div>
+    <div class="contact-methods" id="contactMethods">
+      <a id="contactEmailPill" href="mailto:forreygabe07@gmail.com" class="contact-pill">✉️ &nbsp;<span id="contactEmailText">forreygabe07@gmail.com</span></a>
+      <span id="contactPhonePill" class="contact-pill" style="display:none;">📞 &nbsp;<span id="contactPhoneText"></span></span>
+    </div>
+  </div>
+
+  <!-- PRAYER CARD -->
+  <div class="prayer-card">
+    <h3>✝ &nbsp; Pray for the Mission</h3>
+    <p>The most powerful thing you can do is pray. Ask God to bless Almu and Didi, to provide everything they need, and to multiply the fruit of their missionary year a hundredfold. Prayer is always welcome — and always enough.</p>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <strong>Almu &amp; Didi — Regnum Christi Missionary Year</strong><br>
+  <a href="index.html">Home</a> &nbsp;·&nbsp;
+  <a href="guide.html">Ways to Help</a> &nbsp;·&nbsp;
+  <a href="donate.html">Donate</a><br>
+  <span id="footerTrackingNote">Donations are logged locally on the device that records them.</span>
+</footer>
+
+<script src="config.js"></script>
+<script>
+  window.addEventListener('load', () => {
+    const c = SITE_CONFIG;
+
+    // ── SHARE WIDGET ──
+    const shareBase = c.siteUrl || window.location.href.split('guide.html')[0] + 'index.html';
+    const shareText = encodeURIComponent('Almu and Didi are two missionaries raising $20,000 for a Regnum Christi missionary year. Can you help? ' + shareBase);
+    const shareUrl  = encodeURIComponent(shareBase);
+
+    document.getElementById('shareUrl').value = shareBase;
+    document.getElementById('shareFb').href = 'https://www.facebook.com/sharer/sharer.php?u=' + shareUrl;
+    document.getElementById('shareX').href  = 'https://twitter.com/intent/tweet?url=' + shareUrl + '&text=' + shareText;
+    document.getElementById('shareWa').href = 'https://wa.me/?text=' + shareText;
+    document.getElementById('shareEm').href = 'mailto:?subject=' + encodeURIComponent('Support Almu & Didi\'s Missionary Year') + '&body=' + shareText;
+
+    // ── CONTACT INFO ──
+    const email = c.contact.email;
+    const phone = c.contact.phone;
+
+    document.getElementById('parishEmailBtn').href    = 'mailto:' + email + '?subject=Parish%20Connection%20for%20Almu%20%26%20Didi';
+    document.getElementById('itemEmailLink').href     = 'mailto:' + email + '?subject=Item%20Donation%20for%20Almu%20%26%20Didi';
+    document.getElementById('contactEmailPill').href  = 'mailto:' + email;
+    document.getElementById('contactEmailText').textContent = email;
+
+    if (phone) {
+      const phoneLine = document.getElementById('itemPhoneLine');
+      if (phoneLine) { phoneLine.style.display = ''; document.getElementById('itemPhone').textContent = phone; }
+      const phonePill = document.getElementById('contactPhonePill');
+      if (phonePill) { phonePill.style.display = ''; document.getElementById('contactPhoneText').textContent = phone; }
+    }
+
+    // ── CHARITY WALK BUTTON ──
+    if (c.eventUrl) {
+      document.getElementById('walkSignupBtn').href = c.eventUrl;
+      document.getElementById('walkSignupBtn').textContent = 'Sign Up for the Walk →';
+    }
+  });
+
+  function copyShareLink() {
+    const input = document.getElementById('shareUrl');
+    input.select();
+    try {
+      navigator.clipboard.writeText(input.value).then(() => showCopyMsg('✓ Link copied!')).catch(() => {
+        document.execCommand('copy');
+        showCopyMsg('✓ Link copied!');
+      });
+    } catch(e) {
+      document.execCommand('copy');
+      showCopyMsg('✓ Link copied!');
+    }
+  }
+
+  function showCopyMsg(msg) {
+    const el = document.getElementById('copyMsg');
+    el.textContent = msg;
+    setTimeout(() => { el.textContent = ''; }, 2500);
+  }
+</script>
+
+</body>
+</html>
