@@ -8,8 +8,8 @@ const SITE_CONFIG = {
 
   // ── GOAL & PROGRESS ─────────────────────────────────────
   goal:            20000,   // Total fundraising goal in dollars
-  raised:          0,       // Starting amount — donations are tracked live via the Log panel
-  coMissionaries:  0,       // Starting donor count — updates live as donations are logged
+  raised:          1050,       // Starting amount — donations are tracked live via the Log panel
+  coMissionaries:  5,       // Starting donor count — updates live as donations are logged
   launchDate:      "2026-07-10",  // Launch date — countdown computed automatically
   get daysToLaunch() {
     const launch = new Date("2026-07-10");
