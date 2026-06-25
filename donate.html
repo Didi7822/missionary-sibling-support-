@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Donate | Almu & Didi — Regnum Christi Missionary Year</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* ── SITE NAV ── */
+    .site-nav { background:#0d2d6b; position:sticky; top:0; z-index:100; border-bottom:2px solid rgba(240,208,120,0.25); }
+    .nav-inner { max-width:900px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:0 24px; }
+    .nav-brand { font-family:Arial,sans-serif; font-size:0.82rem; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold2); padding:14px 0; text-decoration:none; }
+    .nav-links { display:flex; gap:0; }
+    .nav-links a { font-family:Arial,sans-serif; font-size:0.82rem; font-weight:700; color:rgba(255,255,255,0.75); text-decoration:none; padding:16px 18px; border-bottom:3px solid transparent; transition:all 0.2s; letter-spacing:0.5px; }
+    .nav-links a:hover { color:var(--gold2); }
+    .nav-links a.active { color:#fff; border-bottom-color:var(--gold2); }
+    .nav-links a.nav-donate { background:var(--gold); color:#0d2d6b; border-radius:6px; margin:10px 0 10px 10px; padding:8px 18px; border-bottom:none; }
+    .nav-links a.nav-donate:hover { background:var(--gold2); }
+
+    /* ── DONATE PAGE EXTRAS ── */
+    .donate-hero {
+      background: linear-gradient(150deg, #0d2d6b 0%, var(--rc-blue) 50%, #2060c0 100%);
+      color: #fff; text-align: center; padding: 64px 24px 52px; position: relative; overflow: hidden;
+    }
+    .donate-hero .hero-bg-cross { font-size: 320px; }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      color: rgba(255,255,255,0.7); font-family: Arial, sans-serif; font-size: 0.82rem;
+      text-decoration: none; margin-bottom: 28px; transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--gold2); }
+    .donate-hero h1 { font-size: clamp(1.9rem, 4vw, 3rem); margin-bottom: 14px; }
+    .donate-hero h1 em { color: var(--gold2); font-style: normal; }
+    .donate-hero p { font-family: Arial, sans-serif; font-size: 1rem; max-width: 520px; margin: 0 auto; opacity: 0.88; }
+
+    /* ── GIVING SECTION ── */
+    .giving-wrap { max-width: 820px; margin: 0 auto; padding: 64px 24px; }
+
+    /* TOGGLE */
+    .type-toggle {
+      display: flex; background: var(--rc-light); border-radius: 12px; padding: 6px; gap: 6px;
+      margin-bottom: 36px; max-width: 340px; margin-left: auto; margin-right: auto;
+    }
+    .toggle-btn {
+      flex: 1; padding: 10px; border: none; border-radius: 8px; cursor: pointer;
+      font-family: Arial, sans-serif; font-size: 0.88rem; font-weight: 700; transition: all 0.2s;
+      background: transparent; color: var(--gray);
+    }
+    .toggle-btn.active { background: var(--rc-blue); color: #fff; box-shadow: 0 2px 8px rgba(26,79,160,0.3); }
+
+    /* AMOUNT GRID */
+    .amounts-label { font-family: Arial, sans-serif; font-size: 0.72rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--rc-blue); margin-bottom: 14px; }
+    .amount-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 14px; }
+    .amt-btn {
+      border: 2px solid var(--border); border-radius: 12px; padding: 18px 12px;
+      text-align: center; cursor: pointer; transition: all 0.2s; background: var(--white);
+    }
+    .amt-btn:hover { border-color: var(--rc-blue); background: var(--rc-pale); }
+    .amt-btn.selected { border-color: var(--rc-blue); background: var(--rc-light); }
+    .amt-btn .amt-num { display: block; font-size: 1.45rem; font-weight: 700; color: var(--rc-blue); line-height: 1; margin-bottom: 4px; }
+    .amt-btn .amt-lbl { display: block; font-family: Arial, sans-serif; font-size: 0.75rem; color: var(--gray); }
+    .amt-btn.selected .amt-lbl { color: var(--rc-blue); }
+
+    .custom-wrap { display: flex; align-items: center; gap: 0; margin-bottom: 28px; }
+    .custom-prefix { background: var(--rc-light); border: 2px solid var(--border); border-right: none; border-radius: 10px 0 0 10px; padding: 13px 16px; font-size: 1.1rem; font-weight: 700; color: var(--rc-blue); }
+    .custom-input {
+      flex: 1; border: 2px solid var(--border); border-radius: 0 10px 10px 0; padding: 13px 16px;
+      font-size: 1.1rem; font-family: Arial, sans-serif; color: var(--dark); outline: none;
+      transition: border-color 0.2s;
+    }
+    .custom-input:focus { border-color: var(--rc-blue); }
+
+    /* TIER BADGES (monthly only) */
+    .tier-badges { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px; }
+    .tier-badge { background: var(--rc-pale); border: 1px solid var(--border); border-radius: 20px; padding: 6px 16px; font-family: Arial, sans-serif; font-size: 0.8rem; color: var(--gray); cursor: pointer; transition: all 0.2s; }
+    .tier-badge.active { background: var(--rc-blue); color: #fff; border-color: var(--rc-blue); }
+    .tier-badge span { font-weight: 700; }
+
+    /* DONATE CTA */
+    .donate-cta-wrap { display: grid; gap: 14px; }
+    .btn-donate-main {
+      display: block; width: 100%; padding: 18px; border-radius: 14px; border: none; cursor: pointer;
+      background: linear-gradient(135deg, var(--rc-blue), var(--rc-blue2));
+      color: #fff; font-family: Arial, sans-serif; font-size: 1.05rem; font-weight: 800;
+      letter-spacing: 0.5px; text-align: center; text-decoration: none;
+      box-shadow: 0 4px 18px rgba(26,79,160,0.35); transition: all 0.2s;
+    }
+    .btn-donate-main:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(26,79,160,0.4); }
+    .btn-alt {
+      display: block; width: 100%; padding: 14px; border-radius: 14px; border: 2px solid var(--border); cursor: pointer;
+      background: var(--white); color: var(--rc-blue); font-family: Arial, sans-serif; font-size: 0.92rem;
+      font-weight: 700; text-align: center; text-decoration: none; transition: all 0.2s;
+    }
+    .btn-alt:hover { border-color: var(--rc-blue); background: var(--rc-pale); }
+    .secure-note { text-align: center; font-family: Arial, sans-serif; font-size: 0.78rem; color: var(--gray); margin-top: 10px; }
+
+    /* OTHER WAYS */
+    .other-ways { background: var(--white); }
+    .ways-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+    .way-card { background: var(--rc-pale); border: 1px solid var(--border); border-radius: 16px; padding: 28px; text-align: center; }
+    .way-icon { font-size: 2rem; margin-bottom: 12px; }
+    .way-card h4 { color: var(--rc-blue); font-size: 1rem; margin-bottom: 8px; }
+    .way-card p { font-family: Arial, sans-serif; font-size: 0.84rem; color: var(--gray); line-height: 1.6; }
+    .way-card code { display: inline-block; background: var(--rc-light); border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; font-size: 0.82rem; color: var(--rc-blue); margin-top: 8px; font-family: 'Courier New', monospace; }
+
+    /* IMPACT */
+    .impact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
+    .impact-card { background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 24px; text-align: center; box-shadow: var(--shadow-sm); }
+    .impact-amount { font-size: 1.6rem; font-weight: 700; color: var(--rc-blue); display: block; line-height: 1; margin-bottom: 6px; }
+    .impact-desc { font-family: Arial, sans-serif; font-size: 0.82rem; color: var(--gray); line-height: 1.5; }
+
+    /* PROGRESS */
+    .progress-card { background: linear-gradient(135deg, #0d2d6b, var(--rc-blue)); color: #fff; border-radius: 18px; padding: 36px 40px; margin-bottom: 0; }
+    .progress-card h3 { color: var(--gold2); font-family: Arial, sans-serif; font-size: 0.78rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+    .progress-card .p-title { font-size: 1.35rem; margin-bottom: 20px; }
+    .p-bar-wrap { background: rgba(255,255,255,0.12); border-radius: 50px; height: 18px; overflow: hidden; margin-bottom: 10px; }
+    .p-bar-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold2)); border-radius: 50px; transition: width 2s ease; }
+    .p-labels { display: flex; justify-content: space-between; font-family: Arial, sans-serif; font-size: 0.72rem; color: rgba(255,255,255,0.45); margin-bottom: 20px; }
+    .p-stats { display: flex; gap: 32px; flex-wrap: wrap; }
+    .p-stat-n { font-size: 1.8rem; font-weight: 700; color: var(--gold2); display: block; line-height: 1; }
+    .p-stat-l { font-family: Arial, sans-serif; font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-top: 3px; }
+
+    @media (max-width: 520px) {
+      .amount-grid { grid-template-columns: repeat(2, 1fr); }
+      .giving-wrap { padding: 40px 16px; }
+      .progress-card { padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- STICKY NAV (site-wide) -->
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a class="nav-brand" href="index.html">✝ Almu &amp; Didi</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="guide.html">Ways to Help</a>
+      <a href="donate.html" class="nav-donate active">Donate</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="donate-hero">
+  <div class="hero-bg-cross" style="position:absolute;font-size:320px;opacity:0.04;top:50%;left:50%;transform:translate(-50%,-54%);pointer-events:none;">✝</div>
+
+  <div style="position:relative;">
+    <a href="index.html" class="back-link">← Back to Home</a>
+
+    <div class="rc-logo-wrap" style="margin-bottom:20px;">
+      <svg viewBox="0 0 64 64" fill="none" width="52" height="52" xmlns="http://www.w3.org/2000/svg">
+        <path d="M32 6 Q28 16 30 22 Q26 16 28 10 Q22 18 24 26 Q20 20 22 28 Q20 34 26 38 Q22 42 28 46 Q30 50 32 52 Q34 50 36 46 Q42 42 38 38 Q44 34 42 28 Q44 20 38 26 Q40 18 34 10 Q36 16 32 22 Q34 16 32 6Z" fill="#f0d078" opacity="0.9"/>
+        <line x1="32" y1="28" x2="32" y2="62" stroke="white" stroke-width="3" stroke-linecap="round"/>
+        <line x1="20" y1="40" x2="44" y2="40" stroke="white" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <div class="rc-brand">
+        <div class="rc-brand-name">Regnum Christi</div>
+        <div class="rc-brand-full">Missionary Year</div>
+      </div>
+    </div>
+
+    <h1>Support <em>Almu & Didi</em></h1>
+    <p>Your gift funds their full year of apostolic service. Every dollar sends them — and makes you a co-missionary in the Kingdom of Christ.</p>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<div style="background:var(--cream);">
+  <div style="max-width:1020px;margin:0 auto;padding:56px 24px;display:grid;grid-template-columns:1fr 380px;gap:40px;align-items:start;" class="donate-layout">
+
+    <!-- LEFT: IMPACT + PROGRESS -->
+    <div>
+
+      <!-- PROGRESS CARD -->
+      <div class="progress-card" style="margin-bottom:32px;">
+        <h3>Fundraising Progress</h3>
+        <div class="p-title">Almu & Didi — Regnum Christi Missionary Year</div>
+        <div class="p-bar-wrap"><div class="p-bar-fill" id="pBar" style="width:0%"></div></div>
+        <div class="p-labels"><span>$0</span><span>$5,000</span><span>$10,000</span><span>$15,000</span><span id="cfgGoalLabel">$20,000</span></div>
+        <div class="p-stats">
+          <div>
+            <span class="p-stat-n" id="cfgRaised">Loading…</span>
+            <span class="p-stat-l">Raised so far</span>
+          </div>
+          <div>
+            <span class="p-stat-n" id="cfgNeeded">—</span>
+            <span class="p-stat-l">Still needed</span>
+          </div>
+          <div>
+            <span class="p-stat-n" id="cfgCoMiss">—</span>
+            <span class="p-stat-l">Co-missionaries</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- IMPACT -->
+      <div class="sec-head" style="text-align:left;margin-bottom:24px;">
+        <span class="sec-tag">Your Impact</span>
+        <h2 style="font-size:1.5rem;">What Your Gift Does</h2>
+      </div>
+      <div class="impact-grid" style="margin-bottom:40px;">
+        <div class="impact-card">
+          <span class="impact-amount">$25</span>
+          <span class="impact-desc">Covers a week of food and daily living costs on the mission</span>
+        </div>
+        <div class="impact-card">
+          <span class="impact-amount">$50</span>
+          <span class="impact-desc">Pays for transportation to and from an apostolic service site</span>
+        </div>
+        <div class="impact-card">
+          <span class="impact-amount">$100</span>
+          <span class="impact-desc">Covers one month of personal formation materials and supplies</span>
+        </div>
+        <div class="impact-card">
+          <span class="impact-amount">$250</span>
+          <span class="impact-desc">Funds a full retreat — a week of deep prayer and spiritual renewal</span>
+        </div>
+        <div class="impact-card">
+          <span class="impact-amount">$500</span>
+          <span class="impact-desc">Covers travel to and from the mission site for the whole year</span>
+        </div>
+        <div class="impact-card">
+          <span class="impact-amount">$1,000</span>
+          <span class="impact-desc">Pays for two full months of living, serving, and sharing the faith</span>
+        </div>
+      </div>
+
+      <!-- MISSIONARIES MINI -->
+      <div class="sec-head" style="text-align:left;margin-bottom:20px;">
+        <span class="sec-tag">Who You're Supporting</span>
+        <h2 style="font-size:1.5rem;">Almu & Didi</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:40px;">
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center;">
+          <div style="width:64px;height:64px;border-radius:50%;background:var(--rc-blue);border:2px solid var(--gold);margin:0 auto 12px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:1.6rem;color:#fff;"><img src="almu.jpeg" alt="Almu" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"/></div>
+          <strong style="color:var(--rc-blue);display:block;font-size:1.1rem;">Almu</strong>
+          <span style="font-family:Arial,sans-serif;font-size:0.78rem;color:var(--gold);font-weight:700;letter-spacing:1px;text-transform:uppercase;">RC Missionary</span>
+          <p style="font-family:Arial,sans-serif;font-size:0.82rem;color:var(--gray);margin-top:8px;line-height:1.55;" id="cfgAlmuBio">Called to bring the love of Christ to those around her through a full year of apostolic service.</p>
+        </div>
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center;">
+          <div id="didiAvatarDonate" style="width:64px;height:64px;border-radius:50%;background:var(--rc-blue);border:2px solid var(--gold);margin:0 auto 12px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:1.6rem;color:#fff;"><img id="didiPhotoDonate" src="didi.jpeg" alt="Didi" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"/></div>
+          <strong style="color:var(--rc-blue);display:block;font-size:1.1rem;">Didi</strong>
+          <span style="font-family:Arial,sans-serif;font-size:0.78rem;color:var(--gold);font-weight:700;letter-spacing:1px;text-transform:uppercase;">RC Missionary</span>
+          <p style="font-family:Arial,sans-serif;font-size:0.82rem;color:var(--gray);margin-top:8px;line-height:1.55;" id="cfgDidiBio">Answering Christ's call to go out to the whole world — to form, serve, and share the faith.</p>
+        </div>
+      </div>
+
+      <div style="background:var(--rc-pale);border:1px solid var(--border);border-radius:14px;padding:24px;">
+        <div style="font-family:Arial,sans-serif;font-size:0.72rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--rc-blue);margin-bottom:10px;">From the Missionaries</div>
+        <p style="font-style:italic;color:#374151;line-height:1.75;font-size:0.95rem;" id="cfgQuote">"We are not just fundraising — we are inviting you to be part of something eternal. Your gift doesn't just pay our bills; it makes you a co-missionary in the Kingdom of Christ. Every prayer and every dollar you give will be with us every single day of our mission year."</p>
+        <p style="font-family:Arial,sans-serif;font-size:0.85rem;color:var(--rc-blue);font-weight:700;margin-top:12px;">— Almu &amp; Didi</p>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: DONATION FORM PANEL -->
+    <div style="position:sticky;top:80px;">
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:20px;padding:32px;box-shadow:var(--shadow);">
+
+        <div style="text-align:center;margin-bottom:24px;">
+          <div style="font-family:Arial,sans-serif;font-size:0.72rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--rc-blue);margin-bottom:6px;">Support Their Mission</div>
+          <div style="font-size:1.2rem;color:var(--rc-blue);font-weight:700;">Become a Co-Missionary</div>
+        </div>
+
+        <!-- TYPE TOGGLE -->
+        <div class="type-toggle">
+          <button class="toggle-btn active" id="btnMonthly" onclick="setType('monthly')">Monthly</button>
+          <button class="toggle-btn" id="btnOnce" onclick="setType('once')">One-Time</button>
+        </div>
+
+        <!-- MONTHLY PANEL -->
+        <div id="panelMonthly">
+          <div class="amounts-label">Choose monthly amount</div>
+          <div class="amount-grid">
+            <div class="amt-btn" onclick="selectAmt(this,'25')">
+              <span class="amt-num">$25</span>
+              <span class="amt-lbl">Co-Missionary</span>
+            </div>
+            <div class="amt-btn selected" onclick="selectAmt(this,'50')">
+              <span class="amt-num">$50</span>
+              <span class="amt-lbl">Mission Partner</span>
+            </div>
+            <div class="amt-btn" onclick="selectAmt(this,'100')">
+              <span class="amt-num">$100</span>
+              <span class="amt-lbl">Apostle</span>
+            </div>
+            <div class="amt-btn" onclick="selectAmt(this,'150')">
+              <span class="amt-num">$150</span>
+              <span class="amt-lbl">Patron</span>
+            </div>
+            <div class="amt-btn" onclick="selectAmt(this,'200')">
+              <span class="amt-num">$200</span>
+              <span class="amt-lbl">Benefactor</span>
+            </div>
+            <div class="amt-btn" onclick="selectAmt(this,'custom-m')">
+              <span class="amt-num" style="font-size:1rem;">Other</span>
+              <span class="amt-lbl">Custom</span>
+            </div>
+          </div>
+          <div class="custom-wrap" id="customWrapM" style="display:none;">
+            <span class="custom-prefix">$</span>
+            <input class="custom-input" type="number" placeholder="Enter amount" id="customAmtM" min="1"/>
+          </div>
+          <div style="font-family:Arial,sans-serif;font-size:0.78rem;color:var(--gray);margin-bottom:20px;text-align:center;">
+            $50/month × 12 months = <strong style="color:var(--rc-blue);">$600 total impact</strong>
+          </div>
+        </div>
+
+        <!-- ONE-TIME PANEL -->
+        <div id="panelOnce" style="display:none;">
+          <div class="amounts-label">Choose gift amount</div>
+          <div class="amount-grid">
+            <div class="amt-btn" onclick="selectAmt(this,'50o')">
+              <span class="amt-num">$50</span>
+              <span class="amt-lbl">Supporter</span>
+            </div>
+            <div class="amt-btn selected" onclick="selectAmt(this,'100o')">
+              <span class="amt-num">$100</span>
+              <span class="amt-lbl">Partner</span>
+            </div>
+            <div class="amt-btn" onclick="selectAmt(this,'200o')">
+              <span class="amt-num">$200</span>
+              <span class="amt-lbl">Champion</span>
+            </div>
+            <div class="amt-btn" onclick="selectAmt(this,'500o')">
+              <span class="amt-num">$500</span>
+              <span class="amt-lbl">Patron</span>
+            </div>
+            <div class="amt-btn" onclick="selectAmt(this,'1000o')">
+              <span class="amt-num">$1K</span>
+              <span class="amt-lbl">Benefactor</span>
+            </div>
+            <div class="amt-btn" onclick="selectAmt(this,'custom-o')">
+              <span class="amt-num" style="font-size:1rem;">Other</span>
+              <span class="amt-lbl">Custom</span>
+            </div>
+          </div>
+          <div class="custom-wrap" id="customWrapO" style="display:none;">
+            <span class="custom-prefix">$</span>
+            <input class="custom-input" type="number" placeholder="Enter amount" id="customAmtO" min="1"/>
+          </div>
+        </div>
+
+        <!-- DONATE BUTTONS -->
+        <div class="donate-cta-wrap">
+          <a href="https://www.givesendgo.com/didi-and-almus-missionary-year?utm_source=share" target="_blank" class="btn-donate-main" id="mainDonateBtn">
+            ✝ &nbsp;Give Now via GiveSendGo
+          </a>
+          <a href="https://gofund.me/f0dfb1dad" target="_blank" class="btn-alt">
+            Give via GoFundMe
+          </a>
+        </div>
+        <div class="secure-note">🔒 Secure giving · Your gift goes directly to Almu &amp; Didi's mission</div>
+
+        <hr style="margin:24px 0;border:none;border-top:1px solid var(--border);"/>
+
+        <!-- CHECK INFO -->
+        <div style="font-family:Arial,sans-serif;font-size:0.82rem;color:var(--gray);line-height:1.7;">
+          <div style="font-weight:700;color:var(--rc-blue);margin-bottom:6px;font-size:0.85rem;">Prefer to give by check?</div>
+          Make checks payable to <strong id="cfgCheckTo">Almu &amp; Didi Missionary Year</strong> and mail directly to Almu or Didi. Write <strong>"Missionary Year"</strong> in the memo line. Contact us for the mailing address.
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- OTHER WAYS TO GIVE -->
+<section class="other-ways" style="padding:64px 0;">
+  <div class="container">
+    <div class="sec-head">
+      <span class="sec-tag">More Ways to Give</span>
+      <h2>Every Gift Makes a Difference</h2>
+      <div class="sec-divider"></div>
+    </div>
+    <div class="ways-grid">
+      <div class="way-card">
+        <div class="way-icon">💳</div>
+        <h4>Credit / Debit Card</h4>
+        <p>Give securely online through GiveSendGo or GoFundMe. All major cards accepted. Receipts sent automatically.</p>
+      </div>
+      <div class="way-card">
+        <div class="way-icon">📱</div>
+        <h4>Venmo or Zelle</h4>
+        <p>Send directly to Almu or Didi with no platform fees.</p>
+        <code id="cfgVenmoLine">Zelle: 956-566-4313 (Didi)</code>
+      </div>
+      <div class="way-card">
+        <div class="way-icon">✉️</div>
+        <h4>Check by Mail</h4>
+        <p>Payable to <span id="cfgCheckTo2">Almu &amp; Didi Missionary Year</span>. Memo: "Missionary Year." Contact us for the mailing address.</p>
+      </div>
+      <div class="way-card">
+        <div class="way-icon">✉️</div>
+        <h4>Email Us</h4>
+        <p>Questions, large gifts, or anything else — reach out directly.</p>
+        <code><a id="cfgEmailLink" href="mailto:didierferdinandfaure@gmail.com" style="color:inherit;text-decoration:none;">didierferdinandfaure@gmail.com</a></code>
+      </div>
+
+      <div class="way-card">
+        <div class="way-icon">🔄</div>
+        <h4>Monthly Auto-Giving</h4>
+        <p>Set up a recurring monthly gift through GiveSendGo. $25/month = $300 over the year with zero extra effort.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DONATION LOG PANEL -->
+<section style="background:var(--rc-pale);padding:56px 0;border-top:3px solid var(--rc-blue);">
+  <div class="container">
+    <div style="max-width:640px;margin:0 auto;">
+
+      <div style="text-align:center;margin-bottom:32px;">
+        <span class="sec-tag">📋 Donation Tracker</span>
+        <h2 style="font-size:1.5rem;color:var(--rc-blue);margin-top:10px;">Log a Donation</h2>
+        <p style="font-family:Arial,sans-serif;font-size:0.9rem;color:var(--gray);margin-top:8px;">When someone donates, record it here — the progress bar updates instantly for everyone who visits the site.</p>
+      </div>
+
+      <!-- LOG FORM -->
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:18px;padding:28px;box-shadow:var(--shadow-sm);margin-bottom:24px;">
+        <div style="display:grid;grid-template-columns:1fr 140px;gap:12px;margin-bottom:14px;">
+          <div>
+            <label style="font-family:Arial,sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--rc-blue);display:block;margin-bottom:6px;">Donor Name <span style="font-weight:400;color:var(--gray);">(optional)</span></label>
+            <input id="logName" type="text" placeholder="e.g. Grandma Rose"
+              style="width:100%;border:2px solid var(--border);border-radius:10px;padding:11px 14px;font-family:Arial,sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;"
+              onfocus="this.style.borderColor='var(--rc-blue)'" onblur="this.style.borderColor='var(--border)'"/>
+          </div>
+          <div>
+            <label style="font-family:Arial,sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--rc-blue);display:block;margin-bottom:6px;">Amount ($)</label>
+            <div style="display:flex;align-items:center;gap:0;">
+              <span style="background:var(--rc-light);border:2px solid var(--border);border-right:none;border-radius:10px 0 0 10px;padding:11px 12px;font-weight:700;color:var(--rc-blue);">$</span>
+              <input id="logAmt" type="number" min="1" placeholder="0"
+                style="flex:1;border:2px solid var(--border);border-radius:0 10px 10px 0;padding:11px 12px;font-family:Arial,sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;min-width:0;"
+                onfocus="this.style.borderColor='var(--rc-blue)'" onblur="this.style.borderColor='var(--border)'"
+                onkeydown="if(event.key==='Enter') logDonation()"/>
+            </div>
+          </div>
+        </div>
+        <button onclick="logDonation()" id="logBtn"
+          style="width:100%;padding:14px;background:linear-gradient(135deg,var(--rc-blue),var(--rc-blue2));color:#fff;border:none;border-radius:12px;font-family:Arial,sans-serif;font-size:1rem;font-weight:800;cursor:pointer;letter-spacing:0.5px;transition:all 0.2s;"
+          onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+          ✝ &nbsp;Record This Donation
+        </button>
+        <div id="logMsg" style="text-align:center;font-family:Arial,sans-serif;font-size:0.85rem;margin-top:10px;min-height:20px;"></div>
+      </div>
+
+      <!-- TOTALS DISPLAY -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;">
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:12px;padding:18px;text-align:center;">
+          <span style="display:block;font-size:1.5rem;font-weight:700;color:var(--rc-blue);" id="liveTotalDisp">Loading…</span>
+          <span style="font-family:Arial,sans-serif;font-size:0.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--gray);">Total Raised</span>
+        </div>
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:12px;padding:18px;text-align:center;">
+          <span style="display:block;font-size:1.5rem;font-weight:700;color:var(--green);" id="liveDonorDisp">—</span>
+          <span style="font-family:Arial,sans-serif;font-size:0.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--gray);">Donors</span>
+        </div>
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:12px;padding:18px;text-align:center;">
+          <span style="display:block;font-size:1.5rem;font-weight:700;color:var(--gold);" id="livePctDisp">—</span>
+          <span style="font-family:Arial,sans-serif;font-size:0.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--gray);">Of Goal</span>
+        </div>
+      </div>
+
+      <!-- DONATION LIST -->
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:14px;overflow:hidden;">
+        <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-family:Arial,sans-serif;font-size:0.78rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--rc-blue);">Donation History</span>
+        </div>
+        <div id="donationList" style="max-height:280px;overflow-y:auto;padding:8px 0;">
+          <div style="text-align:center;padding:28px;font-family:Arial,sans-serif;font-size:0.88rem;color:var(--gray);">Loading donations…</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- MESSAGES / PRAYERS SECTION -->
+<section style="background:var(--white);padding:64px 0;border-top:2px solid var(--border);">
+  <div class="container">
+    <div style="max-width:720px;margin:0 auto;">
+      <div style="text-align:center;margin-bottom:36px;">
+        <span class="sec-tag">Community</span>
+        <h2 style="font-size:1.5rem;color:var(--rc-blue);margin-top:10px;">Words of Wisdom &amp; Prayers</h2>
+        <p style="font-family:Arial,sans-serif;font-size:0.9rem;color:var(--gray);margin-top:8px;">Leave a prayer, a word of encouragement, or a message for Almu and Didi as they prepare for their missionary year.</p>
+      </div>
+
+      <!-- MESSAGE FORM -->
+      <div style="background:var(--rc-pale);border:1px solid var(--border);border-radius:18px;padding:28px;margin-bottom:32px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+          <div>
+            <label style="font-family:Arial,sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--rc-blue);display:block;margin-bottom:6px;">Your Name <span style="font-weight:400;color:var(--gray);">(optional)</span></label>
+            <input id="msgName" type="text" placeholder="e.g. Sarah"
+              style="width:100%;border:2px solid var(--border);border-radius:10px;padding:11px 14px;font-family:Arial,sans-serif;font-size:0.9rem;outline:none;background:var(--white);transition:border-color 0.2s;"
+              onfocus="this.style.borderColor='var(--rc-blue)'" onblur="this.style.borderColor='var(--border)'"/>
+          </div>
+          <div>
+            <label style="font-family:Arial,sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--rc-blue);display:block;margin-bottom:6px;">Type</label>
+            <select id="msgType" style="width:100%;border:2px solid var(--border);border-radius:10px;padding:11px 14px;font-family:Arial,sans-serif;font-size:0.9rem;outline:none;background:var(--white);color:var(--dark);">
+              <option value="prayer">🙏 Prayer</option>
+              <option value="encouragement">💛 Encouragement</option>
+              <option value="wisdom">✝ Word of Wisdom</option>
+              <option value="message">✉️ Message</option>
+            </select>
+          </div>
+        </div>
+        <div style="margin-bottom:14px;">
+          <label style="font-family:Arial,sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--rc-blue);display:block;margin-bottom:6px;">Your Message</label>
+          <textarea id="msgText" rows="3" placeholder="Write your prayer, encouragement, or message here..."
+            style="width:100%;border:2px solid var(--border);border-radius:10px;padding:11px 14px;font-family:Arial,sans-serif;font-size:0.9rem;outline:none;background:var(--white);resize:vertical;transition:border-color 0.2s;"
+            onfocus="this.style.borderColor='var(--rc-blue)'" onblur="this.style.borderColor='var(--border)'"></textarea>
+        </div>
+        <button onclick="submitMessage()" id="msgBtn"
+          style="width:100%;padding:13px;background:var(--rc-blue);color:#fff;border:none;border-radius:10px;font-family:Arial,sans-serif;font-size:0.95rem;font-weight:800;cursor:pointer;letter-spacing:0.3px;transition:opacity 0.2s;"
+          onmouseover="this.style.opacity='0.88'" onmouseout="this.style.opacity='1'">
+          ✝ &nbsp;Leave Your Message
+        </button>
+        <div id="msgConfirm" style="text-align:center;font-family:Arial,sans-serif;font-size:0.85rem;margin-top:10px;min-height:20px;"></div>
+      </div>
+
+      <!-- MESSAGE WALL -->
+      <div id="messageWall" style="display:grid;gap:14px;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE BAND -->
+<div class="quote-band">
+  <blockquote>"The harvest is plentiful but the workers are few. Ask the Lord of the harvest, therefore, to send out workers into his harvest field."</blockquote>
+  <cite>Matthew 9:37–38</cite>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-rc">
+    <svg viewBox="0 0 64 64" fill="none" width="40" height="40" xmlns="http://www.w3.org/2000/svg">
+      <path d="M32 6 Q28 16 30 22 Q26 16 28 10 Q22 18 24 26 Q20 20 22 28 Q20 34 26 38 Q22 42 28 46 Q30 50 32 52 Q34 50 36 46 Q42 42 38 38 Q44 34 42 28 Q44 20 38 26 Q40 18 34 10 Q36 16 32 22 Q34 16 32 6Z" fill="#f0d078" opacity="0.8"/>
+      <line x1="32" y1="28" x2="32" y2="62" stroke="white" stroke-width="3" stroke-linecap="round"/>
+      <line x1="20" y1="40" x2="44" y2="40" stroke="white" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+    <div class="foot-rc-text">
+      <strong>Almu &amp; Didi</strong>
+      <span>Regnum Christi Missionary Year</span>
+    </div>
+  </div>
+  <p><a href="index.html">← Home</a> &nbsp;·&nbsp; <a href="guide.html">Ways to Help</a></p>
+  <p style="margin-top:12px;">Questions? <a id="cfgFooterEmail" href="mailto:forreygabe07@gmail.com">Email Almu &amp; Didi</a></p>
+</footer>
+
+<!-- FLOATING LOG BUTTON -->
+<button id="floatLogBtn" onclick="openLogPopup()" aria-label="Log a donation">
+  <span style="font-size:1.3rem;">✝</span>
+  <span>Log a Donation</span>
+</button>
+
+<!-- LOG POPUP MODAL -->
+<div id="logPopupOverlay" onclick="closeLogPopup()" style="display:none;position:fixed;inset:0;background:rgba(13,45,107,0.55);z-index:1000;backdrop-filter:blur(2px);"></div>
+<div id="logPopup" style="display:none;position:fixed;bottom:88px;right:24px;z-index:1001;width:min(340px,calc(100vw - 48px));background:#fff;border-radius:20px;box-shadow:0 8px 40px rgba(13,45,107,0.22);border:1px solid var(--border);overflow:hidden;">
+  <div style="background:linear-gradient(135deg,#0d2d6b,var(--rc-blue));padding:20px 24px 18px;display:flex;align-items:center;justify-content:space-between;">
+    <div>
+      <div style="font-family:Arial,sans-serif;font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold2);margin-bottom:4px;">Just donated?</div>
+      <div style="font-size:1.1rem;color:#fff;font-weight:700;">Record Your Gift</div>
+    </div>
+    <button onclick="closeLogPopup()" style="background:rgba(255,255,255,0.12);border:none;color:rgba(255,255,255,0.8);border-radius:50%;width:32px;height:32px;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">&times;</button>
+  </div>
+  <div style="padding:20px 24px 24px;">
+    <p style="font-family:Arial,sans-serif;font-size:0.88rem;color:var(--gray);line-height:1.6;margin-bottom:20px;">After giving on GiveSendGo or GoFundMe, come back here and log it so the progress bar updates for everyone.</p>
+    <button onclick="goToLog()" style="width:100%;padding:14px;background:linear-gradient(135deg,var(--rc-blue),var(--rc-blue2));color:#fff;border:none;border-radius:12px;font-family:Arial,sans-serif;font-size:1rem;font-weight:800;cursor:pointer;letter-spacing:0.3px;transition:opacity 0.2s;" onmouseover="this.style.opacity='.88'" onmouseout="this.style.opacity='1'">
+      ✝ &nbsp;Take Me to the Log →
+    </button>
+  </div>
+</div>
+
+<style>
+  #floatLogBtn {
+    position: fixed; bottom: 24px; right: 24px; z-index: 999;
+    display: flex; align-items: center; gap: 8px;
+    background: linear-gradient(135deg, #0d2d6b, var(--rc-blue));
+    color: #fff; border: none; border-radius: 50px;
+    padding: 14px 22px; font-family: Arial, sans-serif;
+    font-size: 0.9rem; font-weight: 800; cursor: pointer;
+    box-shadow: 0 4px 20px rgba(13,45,107,0.35);
+    letter-spacing: 0.3px; transition: transform 0.2s, box-shadow 0.2s;
+  }
+  #floatLogBtn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(13,45,107,0.4); }
+  @media (max-width: 780px) {
+    .donate-layout { grid-template-columns: 1fr !important; }
+    #floatLogBtn { bottom: 16px; right: 16px; padding: 12px 18px; font-size: 0.82rem; }
+  }
+</style>
+
+<script src="config.js"></script>
+<script>
+  // ── SHARED BACKEND (Google Apps Script Web App) ──
+  // This replaces localStorage — every visitor reads/writes the SAME Google Sheet.
+  const API_URL = 'https://script.google.com/macros/s/AKfycbzDnpcH29mjVAF49CHY7qyig_TrQXkA1wIyjB_tQ01ReffR8TCVO4vXn0g6BJX9Q9MY/exec';
+
+  let cachedDonations = [];
+  let cachedMessages = [];
+
+  // ── FETCH SHARED DATA FROM THE SHEET ──
+  async function fetchSharedData() {
+    try {
+      const res = await fetch(API_URL + '?action=getData');
+      const data = await res.json();
+      cachedDonations = data.donations || [];
+      cachedMessages = data.messages || [];
+    } catch (e) {
+      console.error('Could not reach donation backend:', e);
+    }
+  }
+
+  // ── COMPUTE TOTALS (config.js baseline + everything logged in the Sheet) ──
+  function getTotals() {
+    const sheetTotal = cachedDonations.reduce((s, d) => s + (d.amount || 0), 0);
+    const total = sheetTotal + SITE_CONFIG.raised;
+    const count = cachedDonations.length + SITE_CONFIG.coMissionaries;
+    const goal  = SITE_CONFIG.goal;
+    const pct   = Math.min(100, Math.round((total / goal) * 100));
+    return { total, goal, pct, needed: Math.max(0, goal - total), count };
+  }
+
+  // ── UPDATE ALL UI ──
+  function refreshUI() {
+    const t = getTotals();
+    const fmt = n => '$' + n.toLocaleString();
+
+    const bar = document.getElementById('pBar');
+    if (bar) bar.style.width = t.pct + '%';
+    setText('cfgRaised',  fmt(t.total));
+    setText('cfgNeeded',  fmt(t.needed));
+    setText('cfgCoMiss',  t.count);
+
+    setText('liveTotalDisp', fmt(t.total));
+    setText('liveDonorDisp', t.count);
+    setText('livePctDisp',   t.pct + '%');
+
+    const list = document.getElementById('donationList');
+    if (list) {
+      if (cachedDonations.length === 0) {
+        list.innerHTML = '<div style="text-align:center;padding:28px;font-family:Arial,sans-serif;font-size:0.88rem;color:var(--gray);">No donations logged yet — be the first! 🙏</div>';
+      } else {
+        const rows = cachedDonations.slice().reverse().map(d => {
+          return `<div style="display:flex;justify-content:space-between;align-items:center;padding:11px 20px;border-bottom:1px solid var(--rc-light);font-family:Arial,sans-serif;">
+            <div>
+              <span style="font-weight:700;color:var(--rc-blue);font-size:0.92rem;">✝ Co-Missionary</span>
+              <span style="font-size:0.75rem;color:var(--gray);margin-left:8px;">${d.date}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span style="font-weight:800;color:var(--green);font-size:1rem;">+$${(d.amount||0).toLocaleString()}</span>
+            </div>
+          </div>`;
+        }).join('');
+        list.innerHTML = rows;
+      }
+    }
+  }
+
+  // ── LOG A DONATION (writes to the shared Sheet) ──
+  async function logDonation() {
+    const nameEl = document.getElementById('logName');
+    const amtEl  = document.getElementById('logAmt');
+    const msgEl  = document.getElementById('logMsg');
+    const btn    = document.getElementById('logBtn');
+    const amt    = parseFloat(amtEl.value);
+
+    if (!amt || amt <= 0) {
+      msgEl.style.color = '#991b1b';
+      msgEl.textContent = 'Please enter a valid donation amount.';
+      amtEl.focus();
+      return;
+    }
+
+    const name = nameEl.value.trim() || 'Anonymous';
+    btn.disabled = true;
+    btn.textContent = 'Recording…';
+
+    try {
+      const url = API_URL + '?action=addDonation&name=' + encodeURIComponent(name) + '&amount=' + encodeURIComponent(amt);
+      const res = await fetch(url);
+      const data = await res.json();
+      cachedDonations = data.donations || cachedDonations;
+      cachedMessages  = data.messages  || cachedMessages;
+
+      nameEl.value = '';
+      amtEl.value  = '';
+      msgEl.style.color = 'var(--green)';
+      msgEl.textContent = '✓ Donation of $' + amt.toLocaleString() + ' recorded for everyone! 🙏';
+      setTimeout(() => { msgEl.textContent = ''; }, 4000);
+      refreshUI();
+    } catch (e) {
+      msgEl.style.color = '#991b1b';
+      msgEl.textContent = 'Could not save — check your connection and try again.';
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '✝ &nbsp;Record This Donation';
+    }
+  }
+
+  // ── MESSAGES ──
+  const MSG_ICONS = { prayer:'🙏', encouragement:'💛', wisdom:'✝', message:'✉️' };
+
+  async function submitMessage() {
+    const name = (document.getElementById('msgName').value.trim()) || 'Anonymous';
+    const text = document.getElementById('msgText').value.trim();
+    const type = document.getElementById('msgType').value;
+    const conf = document.getElementById('msgConfirm');
+    const btn  = document.getElementById('msgBtn');
+    if (!text) { conf.style.color='#991b1b'; conf.textContent='Please write a message first.'; return; }
+
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    try {
+      const url = API_URL + '?action=addMessage&name=' + encodeURIComponent(name) + '&type=' + encodeURIComponent(type) + '&text=' + encodeURIComponent(text);
+      const res = await fetch(url);
+      const data = await res.json();
+      cachedDonations = data.donations || cachedDonations;
+      cachedMessages  = data.messages  || cachedMessages;
+
+      document.getElementById('msgName').value = '';
+      document.getElementById('msgText').value = '';
+      conf.style.color = 'var(--green)';
+      conf.textContent = '✓ Thank you! Your message was added for everyone to see. 🙏';
+      setTimeout(() => { conf.textContent = ''; }, 4000);
+      renderMessages();
+    } catch (e) {
+      conf.style.color = '#991b1b';
+      conf.textContent = 'Could not save — check your connection and try again.';
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '✝ &nbsp;Leave Your Message';
+    }
+  }
+
+  function renderMessages() {
+    const wall = document.getElementById('messageWall');
+    if (!wall) return;
+    if (cachedMessages.length === 0) {
+      wall.innerHTML = '<p style="text-align:center;font-family:Arial,sans-serif;font-size:0.88rem;color:var(--gray);padding:20px 0;">No messages yet — be the first to leave one! 🙏</p>';
+      return;
+    }
+    wall.innerHTML = cachedMessages.slice().reverse().map(m =>
+      `<div style="background:var(--rc-pale);border:1px solid var(--border);border-radius:14px;padding:20px 22px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-family:Arial,sans-serif;font-size:0.78rem;">
+          <span style="font-weight:700;color:var(--rc-blue);">${MSG_ICONS[m.type]||'✉️'} ${m.name}</span>
+          <span style="color:var(--gray);">${m.date}</span>
+        </div>
+        <p style="font-family:Arial,sans-serif;font-size:0.9rem;color:#374151;line-height:1.65;margin:0;font-style:italic;">"${m.text}"</p>
+      </div>`
+    ).join('');
+  }
+
+  // ── STATIC CONFIG VALUES (bios, quote, contact, links, etc.) ──
+  function applyConfig() {
+    const c = SITE_CONFIG;
+    setText('cfgAlmuBio', c.almu.bio);
+    setText('cfgDidiBio', c.didi.bio);
+    setText('cfgQuote',   '“' + c.quote + '”');
+    setText('cfgGoalLabel', c.goalFmt);
+
+    const checkEls = document.querySelectorAll('#cfgCheckTo, #cfgCheckTo2');
+    checkEls.forEach(el => { if (el) el.textContent = c.checkPayableTo; });
+
+    const emailLink = document.getElementById('cfgEmailLink');
+    if (emailLink) { emailLink.href = 'mailto:' + c.contact.email; emailLink.textContent = c.contact.email; }
+    const footerEmail = document.getElementById('cfgFooterEmail');
+    if (footerEmail) { footerEmail.href = 'mailto:' + c.contact.email; }
+
+    const venmoLine = document.getElementById('cfgVenmoLine');
+    if (venmoLine) {
+      const parts = [];
+      if (c.contact.venmoAlmu) parts.push('Venmo Almu: ' + c.contact.venmoAlmu);
+      if (c.contact.venmoDidi) parts.push('Venmo Didi: ' + c.contact.venmoDidi);
+      if (c.contact.zelleAlmu) parts.push('Zelle Almu: ' + c.contact.zelleAlmu);
+      if (c.contact.zelleDidi) parts.push('Zelle Didi: ' + c.contact.zelleDidi);
+      if (parts.length) venmoLine.textContent = parts.join(' · ');
+    }
+
+    const mainBtn = document.getElementById('mainDonateBtn');
+    if (mainBtn) mainBtn.href = c.donateUrl;
+    const altBtn = document.querySelector('.btn-alt[href*="gofundme"]');
+    if (altBtn) altBtn.href = c.donateFallback;
+  }
+
+  function setText(id, val) { const el = document.getElementById(id); if (el) el.textContent = val; }
+
+  // ── INIT ──
+  window.addEventListener('load', async () => {
+    applyConfig();
+    await fetchSharedData();
+    refreshUI();
+    renderMessages();
+  });
+
+  // ── TOGGLE MONTHLY / ONE-TIME ──
+  function setType(type) {
+    const isMonthly = type === 'monthly';
+    document.getElementById('panelMonthly').style.display = isMonthly ? '' : 'none';
+    document.getElementById('panelOnce').style.display = isMonthly ? 'none' : '';
+    document.getElementById('btnMonthly').classList.toggle('active', isMonthly);
+    document.getElementById('btnOnce').classList.toggle('active', !isMonthly);
+    const btn = document.getElementById('mainDonateBtn');
+    if (btn) btn.textContent = isMonthly ? '✝  Give Monthly via GiveSendGo' : '✝  Give Now via GiveSendGo';
+  }
+
+  // ── SELECT AMOUNT ──
+  function selectAmt(el, key) {
+    const parent = el.closest('.amount-grid');
+    parent.querySelectorAll('.amt-btn').forEach(b => b.classList.remove('selected'));
+    el.classList.add('selected');
+    const isCustomM = key === 'custom-m';
+    const isCustomO = key === 'custom-o';
+    const cmw = document.getElementById('customWrapM');
+    const cow = document.getElementById('customWrapO');
+    if (cmw) cmw.style.display = isCustomM ? 'flex' : 'none';
+    if (cow) cow.style.display = isCustomO ? 'flex' : 'none';
+    if (isCustomM) document.getElementById('customAmtM').focus();
+    if (isCustomO) document.getElementById('customAmtO').focus();
+  }
+
+  // ── LOG POPUP ──
+  function openLogPopup() {
+    document.getElementById('logPopup').style.display = 'block';
+    document.getElementById('logPopupOverlay').style.display = 'block';
+  }
+  function closeLogPopup() {
+    document.getElementById('logPopup').style.display = 'none';
+    document.getElementById('logPopupOverlay').style.display = 'none';
+  }
+  function goToLog() {
+    closeLogPopup();
+    document.getElementById('logName').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(() => document.getElementById('logAmt').focus(), 600);
+  }
+</script>
+</body>
+</html>
